@@ -35,22 +35,4 @@ jobs:
           path: src-tauri/gen/android/app/build/outputs/**/*.apk
           if-no-files-found: error
 
-  ios:
-    needs: web
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: 22, cache: npm }
-      - uses: dtolnay/rust-toolchain@stable
-        with: { targets: aarch64-apple-ios, aarch64-apple-ios-sim }
-      - run: npm ci
-      - run: npx tauri ios init --ci
-      - run: npx tauri ios build --debug
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ios-debug
-          path: src-tauri/gen/apple/build/**/*.app
-          if-no-files-found: error
-          retention-days: 7
-# ponytail: unsigned iOS artifact only. Add Apple signing secrets for TestFlight/App Store.
+  # iOS tạm tắt — cần Apple signing secrets. Mở lại khi đã cấu hình certificate + provisioning profile.
